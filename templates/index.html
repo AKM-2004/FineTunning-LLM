@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fetch + Flask Demo</title>
+  </head>
+  <body>
+    <h1>Add User</h1>
+    <input type="text" id="nameInput" placeholder="Enter name" />
+    <button onclick="submitUser()">Submit</button>
+
+    <h2>Users:</h2>
+    <ul id="userList"></ul>
+
+    <script>
+      // Send POST request
+      function submitUser() {
+        const name = document.getElementById("nameInput").value;
+
+        fetch("/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            loadUsers(); // refresh user list
+          });
+      }
+
+      // Load user list (GET request)
+      function loadUsers() {
+        fetch("/api/users")
+          .then((res) => res.json())
+          .then((users) => {
+            const list = document.getElementById("userList");
+            list.innerHTML = "";
+            users.forEach((user) => {
+              const li = document.createElement("li");
+              li.textContent = `${user.id}: ${user.name}`;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      // Load users on page load
+      window.onload = loadUsers;
+    </script>
+  </body>
+</html>

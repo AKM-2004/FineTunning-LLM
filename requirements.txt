@@ -1,0 +1,10 @@
+transformers
+datasets
+tokenizers
+accelerate
+evaluate
+diffusers
+optimum
+safetensors
+PEFT
+torchvision
